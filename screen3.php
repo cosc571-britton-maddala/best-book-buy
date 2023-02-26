@@ -40,6 +40,9 @@ require_once 'DB.php';
 							</button>
 						</div>
 						<div>
+							<h3 class="text-white">Book Buy Search Results</h3>
+						</div>
+						<div>
 							<form action="shopping_cart.php" method="post">
 								<input type="submit" class="btn btn-light" value="Manage Shopping Cart">
 							</form>

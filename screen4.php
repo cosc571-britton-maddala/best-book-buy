@@ -21,8 +21,8 @@ require_once 'DB.php';
 	</head>
 <body>
 	<div class="container">
-		<div class="row p-4">
-			<div class="col">
+		<div class="row justify-content-center p-4">
+			<div class="col-xl-8 col-lg-8 col-md-12">
 				<div class="card">
 					<div class="card-header text-bg-dark d-flex justify-content-between">
 						<h4>Reviews For: <?= $_GET["title"] ?> (ISBN: <?= $_GET["isbn"] ?>) </h4>
