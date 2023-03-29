@@ -12,13 +12,20 @@ require_once 'DB.php';
 	}	
 ?>
 <!-- screen 4: -->
+<!-- 
+	COSC 471/571
+	Britton_Maddala
+-->
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Book Reviews - 3-B.com</title>
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-	</head>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Book Reviews - 3-B.com</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
 <body>
 	<div class="container">
 		<div class="row justify-content-center p-4">
@@ -33,8 +40,8 @@ require_once 'DB.php';
 							if(count($rows) == 0) {
 								echo "<div class='alert alert-warning' role='alert'>There are no reviews for this title!</div>";
 							} else {
-								foreach($rows as $review) {
-
+								foreach($rows as $review) 
+								{
 									echo "<div class='card m-4'>"
 											. "<div class='card-body'>"
 												. "<figure>"
@@ -52,9 +59,7 @@ require_once 'DB.php';
 						?>
 					</div>
 					<div class="card-footer">
-						<form action="screen2.php" method="post">
-							<input type="submit" class="btn btn-primary" value="Done">
-						</form>
+						<input type="button" class="btn btn-primary" value="Done" onclick="document.location.href='screen3.php'">
 					</div>
 				</div>
 			</div>
@@ -62,5 +67,4 @@ require_once 'DB.php';
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>				
 </body>
-
 </html>
