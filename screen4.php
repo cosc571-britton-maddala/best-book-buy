@@ -30,10 +30,10 @@ require_once 'DB.php';
 	<div class="container">
 		<div class="row justify-content-center p-4">
 			<div class="col-xl-8 col-lg-8 col-md-12">
-				<div class="card">
+				<div class="card shadow">
 					<div class="card-header text-bg-dark d-flex justify-content-between">
-						<h4>Reviews For: <?= $_GET["title"] ?> (ISBN: <?= $_GET["isbn"] ?>) </h4>
-						<h5><?php echo $_GET["auth"] ?></h5>	
+						<h4 class="mx-3">Reviews For:</h4>
+						<h4 class="text-end"> <?= $_GET["title"] ?> <br> ISBN: <?= $_GET["isbn"] ?> <br> By: <?php echo $_GET["auth"] ?> </h4>
 					</div>
 					<div class="card-body">
 						<?php 
@@ -58,7 +58,7 @@ require_once 'DB.php';
 							} 
 						?>
 					</div>
-					<div class="card-footer">
+					<div class="card-footer p-3">
 						<input type="button" class="btn btn-primary" value="Done" onclick="document.location.href='screen3.php'">
 					</div>
 				</div>

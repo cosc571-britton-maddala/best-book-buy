@@ -89,6 +89,7 @@
 	<title> Search Results - 3-B.com </title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -113,6 +114,7 @@
 						<table class="table table-light table-hover mb-0">
 							<thead>
 								<th></th>
+								<th></th>
 								<th>Title</th>
 								<th>Author</th>
 								<th>Publisher</th>
@@ -128,10 +130,11 @@
 											$disabled = (in_array($book["id"],$_SESSION["cart"])) ? "disabled" : "" ;	
 											echo "<tr>"
 												."<td>"
-													. "<form id='form-{$book["id"]}' action='screen3.php' method='post' class='p-0 m-0'> <input type='text' name='addid' value='{$book["id"]}' style='display:none;'> </form>"
-													. "<button name='btnCart' class='btn btn-sm btn-success add-to-cart' data-id={$book["id"]} id='btnCart' onClick='cart(&#39;{$book["isbn"]}&#39;, &#39;&#39;, &#39;Array&#39;, &#39;all&#39;)' {$disabled}>Add to Cart</button>"
-													. "&nbsp;&nbsp;"
-													. "<button name='review' class='btn btn-sm btn-warning' id='review' onClick='review(&#39;{$book["isbn"]}&#39;, &#39;{$book["title"]}&#39;,{$book["id"]},&#39;{$book["author"]}&#39;)'>Reviews</button>"
+													. "<form action='screen3.php' method='post' class='p-0 m-0'> <input type='text' name='addid' value='{$book["id"]}' style='display:none;'> "
+													. "<button type='submit' class='btn btn-sm btn-success add-to-cart' data-id={$book["id"]} {$disabled}>Add to Cart</button></form>"
+												."</td>"
+												."<td>"
+													. "<button type='button' class='btn btn-sm btn-warning' onClick='review(&#39;{$book["isbn"]}&#39;, &#39;{$book["title"]}&#39;,{$book["id"]},&#39;{$book["author"]}&#39;)'>Reviews</button>"
 												."</td>"
 												."<td>{$book["title"]}</td>"
 												."<td>{$book["author"]}</td>"
@@ -166,13 +169,6 @@
 		</div>
 	</div>
 	<script>
-		$(document).ready(function() {
-			$('.add-to-cart').click(function() {
-				console.log($(this).data('id'));
-				$("#form-" + $(this).data('id')).submit();
-			});
-		});
-
 		//redirect to reviews page
 		function review(isbn, title, id, auth) {
 			window.location.href = "screen4.php?isbn=" + isbn + "&title=" + title + "&id=" + id + "&auth=" + auth;

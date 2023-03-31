@@ -1,7 +1,6 @@
 <?php
 	session_start();
 	
-	//unset($_SESSION["cartCount"]);
 	unset($_SESSION["cart"]);
 	unset($_SESSION["searchquery"]);
 
@@ -25,7 +24,7 @@
 <body>
 	<div class="container p-4">
 		<div class="row justify-content-center">
-			<div class="col-xl-6 col-lg-12">
+			<div class="col-xl-8 col-lg-12">
 				<div class="card shadow">
 					<div class="card-header bg-dark text-white h1 p-4 text-center">Best Book Buy (3-B.com)</div>
 					<div class="card-body ">

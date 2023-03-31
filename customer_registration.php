@@ -37,7 +37,11 @@ require_once 'DB.php';
 	}
 
 ?>
-
+<!-- Figure 6: -->
+<!-- 
+	COSC 471/571
+	Britton_Maddala
+-->
 <html>
 	<head>
 	<title> CUSTOMER REGISTRATION </title>
@@ -46,12 +50,12 @@ require_once 'DB.php';
 	</head>
 <body>
 
-	<div class="container p-2">
+	<div class="container p-4">
 		<div class="row justify-content-center">
-			<div class="col-xl-6 col-lg-6 col-md-12">
-				<div class="card">
-					<div class="card-header p-3 bg-dark text-white">
-						<h3>New Customer Registration</h3>
+			<div class="col-xl-8 col-lg-12 col-md-12">
+				<div class="card shadow">
+					<div class="card-header p-3 bg-dark text-white text-center">
+						<h2>New Customer Registration</h2>
 					</div>
 					<div class="card-body">
 						<div class="row">
@@ -64,35 +68,35 @@ require_once 'DB.php';
 						<form id="cus-form" class="row g-3" method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>" >
 							<div class="col-md-6">
 								<label for="Username" class="form-label">Username<span class="text-danger">*</span></label>
-								<input type="text" class="form-control form-control-sm" name="username" placeholder="Enter Username" aria-label="Username">
+								<input type="text" class="form-control" name="username" placeholder="Enter Username" aria-label="Username">
 							</div>
 							<div class="col-md-3">
 								<label for="Pin" class="form-label">Pin<span class="text-danger">*</span></label>
-								<input type="text" class="form-control form-control-sm" name="pin" placeholder="Enter Pin" aria-label="Pin">
+								<input type="text" class="form-control" name="pin" placeholder="Enter Pin" aria-label="Pin">
 							</div>
 							<div class="col-md-3">
 								<label for="Retype Pin" class="form-label">Retype Pin<span class="text-danger">*</span></label>
-								<input type="text" class="form-control form-control-sm" name="retype-pin" placeholder="Retype Pin" aria-label="Retype Pin">
+								<input type="text" class="form-control" name="retype-pin" placeholder="Retype Pin" aria-label="Retype Pin">
 							</div>
 							<div class="col-md-6">
 								<label for="First Name" class="form-label">First Name<span class="text-danger">*</span></label>
-								<input type="text" class="form-control form-control-sm" name="firstname" placeholder="Enter First Name" aria-label="First Name">
+								<input type="text" class="form-control" name="firstname" placeholder="Enter First Name" aria-label="First Name">
 							</div>
 							<div class="col-md-6">
 								<label for="Last Name" class="form-label">Last Name<span class="text-danger">*</span></label>
-								<input type="text" class="form-control form-control-sm" name="lastname" placeholder="Enter Last Name" aria-label="Last Name">
+								<input type="text" class="form-control" name="lastname" placeholder="Enter Last Name" aria-label="Last Name">
 							</div>
 							<div class="col-md-12">
 								<label for="Address" class="form-label">Address<span class="text-danger">*</span></label>
-								<input type="text" class="form-control form-control-sm" name="address" placeholder="Enter Address" aria-label="Address">
+								<input type="text" class="form-control" name="address" placeholder="Enter Address" aria-label="Address">
 							</div>
 							<div class="col-md-6">
 								<label for="City" class="form-label">City<span class="text-danger">*</span></label>
-								<input type="text" class="form-control form-control-sm" name="city" placeholder="Enter City" aria-label="City">
+								<input type="text" class="form-control" name="city" placeholder="Enter City" aria-label="City">
 							</div>
 							<div class="col-md-3">
 								<label for="State" class="form-label">State<span class="text-danger">*</span></label>
-								<select class="form-select form-select-sm" aria-label="State" name="state">
+								<select class="form-select" aria-label="State" name="state">
 									<option selected>Select State</option>
 									<option value="MI">Michigan</option>
 									<option value="TN">Tennessee</option>
@@ -101,11 +105,11 @@ require_once 'DB.php';
 							</div>
 							<div class="col-md-3">
 								<label for="Zip" class="form-label">Zip<span class="text-danger">*</span></label>
-								<input type="number" class="form-control form-control-sm" name="zip" placeholder="Enter Zip" aria-label="Zip">
+								<input type="number" class="form-control" name="zip" placeholder="Enter Zip" aria-label="Zip">
 							</div>
 							<div class="col-md-4">
 								<label for="Credit Card" class="form-label">Credit Card<span class="text-danger">*</span></label>
-								<select class="form-select form-select-sm" aria-label="Credit Card" name="cctype">
+								<select class="form-select" aria-label="Credit Card" name="cctype">
 									<option selected>Select</option>
 									<option value="Visa">Visa</option>
 									<option value="Master">Master</option>
@@ -115,15 +119,15 @@ require_once 'DB.php';
 							</div>
 							<div class="col-md-5">
 								<label for="Credit Card Number" class="form-label">Credit Card Number<span class="text-danger">*</span></label>
-								<input type="number" class="form-control form-control-sm" name="ccnumber" placeholder="Enter Credit Card Number" aria-label="Credit Card Number" max="9999999999999999">
+								<input type="number" class="form-control" name="ccnumber" placeholder="Enter Credit Card Number" aria-label="Credit Card Number" max="9999999999999999">
 							</div>
 							<div class="col-md-3">
 								<label for="Exp Date" class="form-label">Exp Date<span class="text-danger">*</span></label>
-								<input type="number" class="form-control form-control-sm" name="ccexpdate" placeholder="Enter Exp Date" aria-label="Exp Date" max="9999">
+								<input type="number" class="form-control" name="ccexpdate" placeholder="Enter Exp Date" aria-label="Exp Date" max="9999">
 							</div>
 						</form>
 					</div>
-					<div class="card-footer">
+					<div class="card-footer d-flex justify-content-between">
 						<input type="button" class="btn btn-success" onclick="submitRegistration()" id="register_submit" name="register_submit" value="Register">
 						<input type="submit" class="btn btn-danger" onclick="window.location.href='index.php'" id="donotregister" name="donotregister" value="Cancel Register">
 					</div>

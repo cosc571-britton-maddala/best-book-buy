@@ -2,7 +2,6 @@
 	session_start();
 
 	if(!isset($_SESSION["cart"])) {
-		//$_SESSION["cartCount"] = 0;
 		$_SESSION["cart"] = array();
 	}
 
@@ -26,7 +25,7 @@
 <body>
 	<div class="container p-4">
 		<div class="row justify-content-center">
-			<div class="col-xl-6 col-lg-12">
+			<div class="col-xl-8 col-lg-12">
 				<div class="card shadow">
 					<div class="card-header bg-dark text-white">
 						<h1 class="text-center">Search Books</h1>

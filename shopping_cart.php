@@ -26,6 +26,7 @@ require_once 'DB.php';
 		}
 	}
 ?>
+<!-- shopping_cart -->
 <!-- 
 	COSC 471/571
 	Britton_Maddala
@@ -51,11 +52,10 @@ require_once 'DB.php';
 		<div class="row justify-content-center">
 			<div class="col-xl-8 col-lg-12">
 				<div class="card shadow">
-					<div class="card-header bg-dark d-flex justify-content-between text-white">
-						<button type="button" class="btn btn-success px-3" onclick="document.location.href='confirm_order.php'">Proceed To Checkout</button>
+					<div class="card-header bg-dark d-flex justify-content-between text-white p-3">
+						<button type="button" class="btn btn-secondary" onclick="document.location.href='index.php'">Exit 3-B.com</button>
 						<h2>Shopping Cart</h2>
-						<button type="button" class="btn btn-warning px-3" onclick="document.location.href='screen2.php'">New Search</button>
-						
+						<button type="button" class="btn btn-warning" onclick="document.location.href='screen2.php'">New Search</button>
 					</div>
 					<div class="card-body">
 						<?php
@@ -70,8 +70,8 @@ require_once 'DB.php';
 										."<tr>"
 										."<td class='w-25'><form action='shopping_cart.php' method='post'><input type='text' name='removeid' value={$row["id"]} style='display:none;'><button type='submit' class='btn btn-danger btn-small' data-id={$row["id"]}>Remove Item</button></form></td>"
 										."<td class='w-50'><span class='fw-bold'>{$row["title"]}</span> <br> <span class='fw-bold'>By</span> {$row["author"]} <br> <span class='fw-bold'>Publisher:</span> {$row["publisher"]} </td>"
-										."<td class='w-25'><input type='text' value='1' class='w-50'></td>"
-										."<td class='w-25 px-1'>\${$row["price"]}</td>"
+										."<td class='w-25'><input type='text' value='1' class='w-50 item-qty'></td>"
+										."<td class='w-25 px-1'>\$<span class='item-price'>{$row["price"]}</span></td>"
 										."</tr>"
 										."</tbody>"
 										."</table>"
@@ -83,11 +83,41 @@ require_once 'DB.php';
 							}
 						?>
 					</div>
-					<div class="card-footer">
-						<button type="button" type="button" class="btn btn-secondary px-3" onclick="document.location.href='index.php'">Exit 3-B.com</button>
+					<div class="card-footer d-flex justify-content-between p-3">
+						<div>
+							<button type="button" class="btn btn-warning px-3 recalculate-subtotal-btn">Recalculate Total</button>
+							<button type="button" class="btn btn-success px-3" onclick="document.location.href='confirm_order.php'">Proceed To Checkout</button>
+						</div>
+						<div>
+							<span class="fw-bold fs-5">SubTotal: $</span><span class="subtotal fs-5"></span>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<script>
+		$(document).ready(function() {
+
+			calculatePrice();
+
+			$('.recalculate-subtotal-btn').click(function() {
+				calculatePrice();
+			});
+
+			function calculatePrice() 
+			{
+				total = 0;
+				$('.item-price').each(function() {
+					var bookprice = $(this).html();
+					console.log(bookprice);
+					var qty = $(this).parent().prev().children('.item-qty').val();
+					console.log(qty);
+					total += qty * bookprice;
+				})
+				$('.subtotal').html(total.toFixed(2));
+			}
+		})
+	</script>
 </body>
+</html>
