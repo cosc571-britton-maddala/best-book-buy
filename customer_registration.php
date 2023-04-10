@@ -1,32 +1,50 @@
 <?php
 
 require_once 'DB.php';
+session_start();
 
 	$db = new DB();
 
 	$show_alert = false;
+	$show_userexist = false;
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
 		$username = 	check_input($_POST["username"]);
-		$pin =			check_input($_POST["pin"]);
-		$firstname = 	check_input($_POST["firstname"]);
-		$lastname =		check_input($_POST["lastname"]);
-		$address = 		check_input($_POST["address"]);
-		$city =			check_input($_POST["city"]);
-		$state =		check_input($_POST["state"]);
-		$zip =			check_input($_POST["zip"]);
-		$cctype =		check_input($_POST["cctype"]);
-		$ccnumber =		check_input($_POST["ccnumber"]);
-		$ccexpdate =	check_input($_POST["ccexpdate"]);
 
-		//echo("Data: {$username} {$pin} {$firstname} {$lastname} {$address} {$city} {$state} {$zip} {$cctype} {$ccnumber} {$ccexpdate}");
+		// check if username already exist
+		$query = "Select count(*) as users from customer where username = '{$username}'";
+		$result = $db->getQuery($query);
 
-		$query = "INSERT INTO customer (username,pin,firstname,lastname,address,city,state,zip,credit_card,credit_card_number,credit_card_exp_date) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+		if($result[0]["users"] == 0)
+		{
+			$pin =			check_input($_POST["pin"]);
+			$firstname = 	check_input($_POST["firstname"]);
+			$lastname =		check_input($_POST["lastname"]);
+			$address = 		check_input($_POST["address"]);
+			$city =			check_input($_POST["city"]);
+			$state =		check_input($_POST["state"]);
+			$zip =			check_input($_POST["zip"]);
+			$cctype =		check_input($_POST["cctype"]);
+			$ccnumber =		check_input($_POST["ccnumber"]);
+			$ccexpdate =	check_input($_POST["ccexpdate"]);
 
-		$stmt= $db->getPDO()->prepare($query);
-		$stmt->execute([$username, $pin, $firstname, $lastname, $address, $city, $state, $zip, $cctype, $ccnumber, $ccexpdate]);
+			$query = "INSERT INTO customer (username,pin,firstname,lastname,address,city,state,zip,credit_card,credit_card_number,credit_card_exp_date) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
-		$show_alert = true;
+			$stmt= $db->getPDO()->prepare($query);
+			$stmt->execute([$username, $pin, $firstname, $lastname, $address, $city, $state, $zip, $cctype, $ccnumber, $ccexpdate]);
+
+			$show_alert = true;
+
+			//success than put user in session
+			$query = "Select * from customer where username = '{$username}' and pin = {$pin}";
+			$rows = $db->getQuery($query);
+			$_SESSION["user_logged_in"] = $rows[0];
+		} 
+		else 
+		{
+			$show_userexist = true;
+		}
 	}
 
 	function check_input($data) {
@@ -37,17 +55,21 @@ require_once 'DB.php';
 	}
 
 ?>
-<!-- Figure 6: -->
+<!-- Customer Registration Figure 6: -->
 <!-- 
 	COSC 471/571
 	Britton_Maddala
 -->
-<html>
-	<head>
-	<title> CUSTOMER REGISTRATION </title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-	</head>
+	<title> Customer Registration </title>
+</head>
 <body>
 
 	<div class="container p-4">
@@ -61,7 +83,15 @@ require_once 'DB.php';
 						<div class="row">
 							<div class="col msg-col">
 								<?php if($show_alert) : ?>
-									<div class='alert alert-success' role='alert'>Customer Registration Saved!!!</div>
+									<div class='alert alert-success' role='alert'>Customer Registration Saved!!! Heading to Search...</div>
+									<script> 
+										setTimeout(() => {
+											window.location.href='screen2.php';
+										}, "1000");
+									</script>
+								<?php endif; ?>
+								<?php if($show_userexist) : ?>
+									<div class='alert alert-danger' role='alert'>User - <?php echo($username); ?> Already exist!!!</div>
 								<?php endif; ?>
 							</div>
 						</div>
@@ -123,13 +153,16 @@ require_once 'DB.php';
 							</div>
 							<div class="col-md-3">
 								<label for="Exp Date" class="form-label">Exp Date<span class="text-danger">*</span></label>
-								<input type="number" class="form-control" name="ccexpdate" placeholder="Enter Exp Date" aria-label="Exp Date" max="9999">
+								<input type="month" class="form-control" name="ccexpdate" placeholder="Enter Exp Date" aria-label="Exp Date">
 							</div>
 						</form>
 					</div>
 					<div class="card-footer d-flex justify-content-between">
-						<input type="button" class="btn btn-success" onclick="submitRegistration()" id="register_submit" name="register_submit" value="Register">
-						<input type="submit" class="btn btn-danger" onclick="window.location.href='index.php'" id="donotregister" name="donotregister" value="Cancel Register">
+						<div>
+							<input type="button" class="btn btn-success" onclick="submitRegistration()" id="register_submit" name="register_submit" value="Register">
+							<input type="button" class="btn btn-link" onclick="window.location.href='user_login.php'" value="Already Registered! Login">
+						</div>
+						<input type="button" class="btn btn-danger" onclick="window.location.href='index.php'" id="donotregister" name="donotregister" value="Cancel Register">
 					</div>
 				</div>
 			</div>
