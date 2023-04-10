@@ -6,6 +6,7 @@
 	}
 
 	unset($_SESSION["searchquery"]);
+	unset($_SESSION["books_list"]);
 ?>
 <!-- Figure 2: -->
 <!-- 
@@ -28,7 +29,7 @@
 			<div class="col-xl-8 col-lg-12">
 				<div class="card shadow">
 					<div class="card-header bg-dark text-white">
-						<h1 class="text-center">Search Books</h1>
+						<h1 class="text-center h2">Search Books</h1>
 					</div>
 					<div class="card-body bg-secondary-subtle">
 						<form id="bookSearch" action="screen3.php" method="post">

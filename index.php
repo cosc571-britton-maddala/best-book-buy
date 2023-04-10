@@ -1,8 +1,11 @@
 <?php
 	session_start();
 	
+	// Unset all our Session variables, if they exist
 	unset($_SESSION["cart"]);
 	unset($_SESSION["searchquery"]);
+	unset($_SESSION["user_logged_in"]);
+	unset($_SESSION["admin_logged_in"]);
 
 	session_destroy();
 ?>

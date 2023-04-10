@@ -63,15 +63,15 @@ require_once 'DB.php';
 
 								foreach($rows as $row)
 								{
-									echo "<div class='card-body border my-2'>"
+									echo "<div class='card-body border my-2 book-cart' data-id='{$row["id"]}' >"
 										."<table class='w-100'>"
 										."<thead><th></th><th>Book Description</th><th>Qty</th><th class='w-25 px-1'>Price</th></thead>"
 										."<tbody>"
 										."<tr>"
 										."<td class='w-25'><form action='shopping_cart.php' method='post'><input type='text' name='removeid' value={$row["id"]} style='display:none;'><button type='submit' class='btn btn-danger btn-small' data-id={$row["id"]}>Remove Item</button></form></td>"
 										."<td class='w-50'><span class='fw-bold'>{$row["title"]}</span> <br> <span class='fw-bold'>By</span> {$row["author"]} <br> <span class='fw-bold'>Publisher:</span> {$row["publisher"]} </td>"
-										."<td class='w-25'><input type='text' value='1' class='w-50 item-qty'></td>"
-										."<td class='w-25 px-1'>\$<span class='item-price'>{$row["price"]}</span></td>"
+										."<td class='w-25'><input type='text' value='1' class='w-50 item-qty-{$row["id"]}'></td>"
+										."<td class='w-25 px-1'>\$<span class='item-price-{$row["id"]}'>{$row["price"]}</span></td>"
 										."</tr>"
 										."</tbody>"
 										."</table>"
@@ -86,10 +86,11 @@ require_once 'DB.php';
 					<div class="card-footer d-flex justify-content-between p-3">
 						<div>
 							<button type="button" class="btn btn-warning px-3 recalculate-subtotal-btn">Recalculate Total</button>
-							<button type="button" class="btn btn-success px-3" onclick="document.location.href='confirm_order.php'">Proceed To Checkout</button>
+							<button type="button" class="btn btn-success px-3 checkout-btn"  <?= (!isset($_SESSION["cart"]) || count($_SESSION["cart"]) == 0) ? 'disabled' : '' ?>>Proceed To Checkout</button>
 						</div>
 						<div>
 							<span class="fw-bold fs-5">SubTotal: $</span><span class="subtotal fs-5"></span>
+							<form id="confirm" name="confirm" action="confirm_order.php" method="post"></form>
 						</div>
 					</div>
 				</div>
@@ -108,16 +109,32 @@ require_once 'DB.php';
 			function calculatePrice() 
 			{
 				total = 0;
-				$('.item-price').each(function() {
-					var bookprice = $(this).html();
-					console.log(bookprice);
-					var qty = $(this).parent().prev().children('.item-qty').val();
-					console.log(qty);
+				$('.book-cart').each(function() {
+					var bookid = $(this).data("id");
+					var bookprice = $(".item-price-"+bookid).html();
+					var qty = $(".item-qty-"+bookid).val();
+
 					total += qty * bookprice;
 				})
 				$('.subtotal').html(total.toFixed(2));
 			}
+
+			$('.checkout-btn').click(function() {
+				
+				$('.book-cart').each(function() {
+					var bookid = $(this).data("id");
+					var bookprice = $(".item-price-"+bookid).html();
+					var qty = $(".item-qty-"+bookid).val();
+
+					var bookdetails = `\{"id":"${bookid}","price":"${bookprice}","qty":"${qty}"\}`;
+
+					$('<input>').attr('type','hidden').attr('name','books[]').val(bookdetails).appendTo("#confirm");
+				});
+
+				$("#confirm").submit();				
+			});
 		})
 	</script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>
