@@ -14,7 +14,9 @@ if(isset($_POST["login"]) && !empty($_POST["adminname"])) {
 	$adminname = $_POST["adminname"];
 	$pin = (!empty($_POST["pin"])) ? $_POST["pin"] : 0;
 
-	$query = "Select * from customer where username = '{$adminname}' and pin = {$pin}";
+	$query = "Select * from Administrator where Admin_name = '{$adminname}' and Pin = {$pin}";
+
+
 	$rows = $db->getQuery($query);
 
 	if(isset($rows[0])) 
