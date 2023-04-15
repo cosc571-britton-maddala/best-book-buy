@@ -1,4 +1,15 @@
-
+<?php
+ require_once 'DB.php';
+ $db = new DB();
+ $query = "SELECT count(id) as Customercount FROM customer";
+ $customercount = $db->getQuery($query);
+ $query1 = "select t.titlecount,t.category from (SELECT count(id) as titlecount,category FROM books group by category) t order by t.titlecount desc";
+ $titlecount = $db->getQuery($query1);
+ $query2 = "SELECT round(avg(Purchase.Total),2) as averagetotal,monthname(Purchase.Date)as purchasemonth FROM Purchase GROUP BY monthname(Purchase.Date)";
+ $averagetotal = $db->getQuery($query2);
+ $query3 = "SELECT books.title,(SELECT count(id) FROM book_reviews WHERE book_reviews.bookid= books.id) as reviewcount FROM books";
+ $reviewcount = $db->getQuery($query3);
+?>
 <!DOCTYPE HTML>
 <head>
 <meta charset="UTF-8">
@@ -17,38 +28,40 @@
 					    <h3 class="text-center">Online Bookstore</h3>
 					    <div class="row justify-content-center">
 							<div class="mx-auto col-10 col-md-8 col-lg-6 justify-content-center">
-	                           <div class="form-group">
-			                       <form action="manage_bookstorecatalog.php" method="post" id="catalog">
-			
-				                      <input type="submit" name="bookstore_catalog" id="bookstore_catalog" value="Manage Bookstore Catalog" style="width:400px;">
-			                       </form>
-                               </div>
-							   <div class="form-group">
-			                        <form action=" " method="post" id="orders">
-				                      <input type="submit" name="place_orders" id="place_orders" value="Place Orders" style="width:400px;">
-			
-			                        </form>
-                               </div>
-							   <div class="form-group">	
-			                        <form action="reports.php" method="post" id="reports">
-				                       <input type="submit" name="gen_reports" id="gen_reports" value="Generate Reports" style="width:400px;">
-			                        </form>
-								</div>
-								<div class="form-group">
-			                        <form action="update_adminprofile.php" method="post" id="update">
-				                       <input type="submit" name="update_profile" id="update_profile" value="Update Admin Profile" style="width:400px;">
-			
-			                        </form>
-								</div>
-		                         &nbsp
-								 <div class="form-group">
-			                        <form action="index.php" method="post" id="exit">
-				                        <input type="submit" name="cancel" id="cancel" value="EXIT 3-B.com[Admin]" style="width:400px;">
-			                        </form>
-								</div>
+	                          <div class="row text-center"> 
+								<h3> Customer Count </h3>
+								<h4> <?= $customercount[0]["Customercount"] ?> </h4>
+                              </div>
+							  <div class="row text-center">
+								<h3>Book title count by Category </h3> 
+								<p class="text-center">
+								<?php  foreach ($titlecount as $book):?>
+                                    <?= $book["category"] ?> <?= $book["titlecount"] ?> <br>
+                                   <?php  endforeach;?>
+								</p>
+                              </div>
+							  <div class="row text-center">
+								<h3>Average Sales by Month in Dollars</h3> 
+								<p class="text-center">
+								<?php  foreach ($averagetotal as $month):?>
+                                    <?= $month["purchasemonth"] ?> $<?= $month["averagetotal"] ?> <br>
+                                   <?php  endforeach;?>
+								</p>
+                              </div>
+							  <div class="row text-center">
+								<h3>Book review count by Title </h3> 
+								<p class="text-center">
+								<?php  foreach ($reviewcount as $book):?>
+                                    <?= $book["title"] ?> <?= $book["reviewcount"] ?> <br>
+                                   <?php  endforeach;?>
+								</p>
+                              </div>
 			                </div>
 						</div>
 					</div>
+					<div class="card-footer d-flex justify-content-center" >
+					<button class="btn btn-secondary" onclick="document.location.href='index.php'">EXIT 3-B.com</button>	
+</div>
 				</div>
 			</div>
 		</div>
